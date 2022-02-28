@@ -1,84 +1,84 @@
-    openapi: 3.0.0
-    info:
-      title: URL Deshortify
-      description: Find out if a shortened URL is safe. Browse the complete URL, its security level and TLS certificates.
-      version: 1.0.0
-    servers:
-      - url: https://url-deshortifier.p.rapidapi.com/v1
-        description: RapidAPI
-    tags:
-      - name: URL
-    paths:
-      /inspect:
-        get:
-          tags:
-            - URL
-          summary: Returns information about a shortened URL.
-          description: Inspect the real location an URL points to and display information about the target location certificate
-          parameters:
-            - name: url
-              in: query
-              required: true
-              description: The URL to be inspected
+openapi: 3.0.0
+info:
+  title: URL Deshortify
+  description: Find out if a shortened URL is safe. Browse the complete URL, its security level and TLS certificates.
+  version: 1.0.0
+servers:
+  - url: https://url-deshortifier.p.rapidapi.com/v1
+    description: RapidAPI
+tags:
+  - name: URL
+paths:
+  /inspect:
+    get:
+      tags:
+        - URL
+      summary: Returns information about a shortened URL.
+      description: Inspect the real location an URL points to and display information about the target location certificate
+      parameters:
+        - name: url
+          in: query
+          required: true
+          description: The URL to be inspected
+          schema:
+            type: string
+            example: https://bit.ly/duSk8wK
+      responses:
+        '200':    # status code
+          description: OK
+          content:
+            application/json:
               schema:
-                type: string
-                example: https://bit.ly/duSk8wK
-          responses:
-            '200':    # status code
-              description: OK
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: "#/components/schemas/tls-url"
-                      - $ref: "#/components/schemas/unsafe-url"
-            '400':    # status code
-              description: Bad request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      error:
-                        type: string
-                        example: "Bad URL"
-            '404':    # status code
-              description: URL not found
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      error:
-                        type: string
-                        example: "Impossible to contact https://bad.ly/duSk8wK. Is it the correct target URL to be verified?"
-                      
-    components:
-      schemas:
-          unsafe-url:
-            type: object
-            properties:
-              is_redirect:
-                type: boolean
-                example: true
-              is_tls:
-                type: boolean
-                example: false
-              target_url:
-                type: string
-                example: "http://stackoverflow.com/questions/1562367/how-do-short-urls-services-work"
-          tls-url:
-            type: object
-            properties:
-              is_redirect:
-                type: boolean
-                example: true
-              is_tls:
-                type: boolean
-                example: false
-              target_url:
-                type: string
-                example: "https://stackoverflow.com/questions/1562367/how-do-short-urls-services-work"
-              tls_certificate:
-                type: string
-                enum: [OK, WRONG_HOST, EXPIRED, SELF_SIGNED, UNVERIFIED]
+                oneOf:
+                  - $ref: "#/components/schemas/tls-url"
+                  - $ref: "#/components/schemas/unsafe-url"
+        '400':    # status code
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Bad URL"
+        '404':    # status code
+          description: URL not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Impossible to contact https://bad.ly/duSk8wK. Is it the correct target URL to be verified?"
+                  
+components:
+  schemas:
+      unsafe-url:
+        type: object
+        properties:
+          is_redirect:
+            type: boolean
+            example: true
+          is_tls:
+            type: boolean
+            example: false
+          target_url:
+            type: string
+            example: "http://stackoverflow.com/questions/1562367/how-do-short-urls-services-work"
+      tls-url:
+        type: object
+        properties:
+          is_redirect:
+            type: boolean
+            example: true
+          is_tls:
+            type: boolean
+            example: false
+          target_url:
+            type: string
+            example: "https://stackoverflow.com/questions/1562367/how-do-short-urls-services-work"
+          tls_certificate:
+            type: string
+            enum: [OK, WRONG_HOST, EXPIRED, SELF_SIGNED, UNVERIFIED]
