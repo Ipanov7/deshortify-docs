@@ -46,4 +46,4 @@ and you get:
 </a>
 
 ## Credits
-Detective Doggie is a courtesy of [Freepik - Flaticon](https://www.flaticon.com/free-icons/detective)
+Detective Doggie is from [Freepik - Flaticon](https://www.flaticon.com/free-icons/detective)
